@@ -128,6 +128,33 @@
       box-shadow: var(--shadow-sm);
     }
 
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-add-quick {
+      background: #10b981;
+      color: var(--white);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-add-quick:hover {
+      background: #059669;
+      transform: translateY(-1px);
+    }
+
     .cart-btn {
       background: var(--primary);
       color: var(--white);
@@ -218,8 +245,8 @@
     .search-box {
       position: relative;
       flex: 1;
-      min-width: 260px;
-      max-width: 380px;
+      min-width: 240px;
+      max-width: 360px;
     }
 
     .search-input {
@@ -247,6 +274,13 @@
       color: var(--gray-400);
       font-size: 0.95rem;
       pointer-events: none;
+    }
+
+    .filter-controls-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     .filter-pills {
@@ -277,10 +311,30 @@
       color: var(--white);
     }
 
+    .btn-add-item {
+      background: #10b981;
+      color: var(--white);
+      border: none;
+      padding: 7px 16px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-add-item:hover {
+      background: #059669;
+      transform: scale(1.02);
+    }
+
     /* Food Grid */
     .food-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 20px;
     }
 
@@ -309,9 +363,9 @@
     }
 
     .food-emoji {
-      font-size: 2.5rem;
-      width: 58px;
-      height: 58px;
+      font-size: 2.3rem;
+      width: 54px;
+      height: 54px;
       background: var(--gray-50);
       border: 1px solid var(--gray-200);
       border-radius: var(--radius-sm);
@@ -320,10 +374,16 @@
       justify-content: center;
     }
 
+    .card-actions-top {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .status-badge {
       font-size: 0.75rem;
       font-weight: 700;
-      padding: 4px 10px;
+      padding: 4px 9px;
       border-radius: 999px;
     }
 
@@ -334,6 +394,33 @@
 
     .status-badge.out-of-stock {
       background: var(--danger-light);
+      color: var(--danger);
+    }
+
+    .icon-action-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: 1px solid var(--gray-200);
+      background: var(--white);
+      color: var(--gray-600);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .icon-action-btn:hover {
+      background: var(--gray-100);
+      border-color: var(--gray-400);
+      transform: scale(1.08);
+    }
+
+    .icon-action-btn.delete:hover {
+      background: var(--danger-light);
+      border-color: var(--danger);
       color: var(--danger);
     }
 
@@ -577,7 +664,7 @@
       background: var(--primary-hover);
     }
 
-    /* Modal */
+    /* Modal Styles */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -729,11 +816,11 @@
     /* Admin View */
     .admin-layout {
       display: grid;
-      grid-template-columns: 320px 1fr;
+      grid-template-columns: 340px 1fr;
       gap: 20px;
     }
 
-    @media (max-width: 840px) {
+    @media (max-width: 860px) {
       .admin-layout {
         grid-template-columns: 1fr;
       }
@@ -775,12 +862,12 @@
     }
 
     .action-btn {
-      padding: 4px 8px;
+      padding: 5px 10px;
       border-radius: 6px;
       border: 1px solid var(--gray-200);
       background: var(--white);
       cursor: pointer;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 600;
     }
 
@@ -859,11 +946,16 @@
         </button>
       </div>
 
-      <button class="cart-btn" onclick="toggleCartDrawer(true)">
-        <span>🛒 Cart</span>
-        <span class="cart-count" id="cart-count">0</span>
-        <span id="cart-nav-total" style="font-size: 0.85rem;">₹0.00</span>
-      </button>
+      <div class="header-actions">
+        <button class="btn-add-quick" onclick="openAddModal()">
+          <span>➕</span> Add Item
+        </button>
+        <button class="cart-btn" onclick="toggleCartDrawer(true)">
+          <span>🛒 Cart</span>
+          <span class="cart-count" id="cart-count">0</span>
+          <span id="cart-nav-total" style="font-size: 0.85rem;">₹0.00</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -874,7 +966,7 @@
         <div class="hero-text">
           <div class="hero-badge">🚀 Instant Ordering</div>
           <h1>Delicious Food Delivered Fast</h1>
-          <p>Order freshly prepared food with our quick and simple ordering system.</p>
+          <p>Order freshly prepared food or manage your menu with simple one-click controls.</p>
         </div>
         <div style="font-size: 4.5rem;">🍔</div>
       </div>
@@ -885,10 +977,16 @@
           <input type="text" id="search-input" class="search-input" placeholder="Search food by name..." oninput="handleSearch()" />
         </div>
 
-        <div class="filter-pills">
-          <button class="pill-btn active" id="filter-all" onclick="setFilter('all')">All Items</button>
-          <button class="pill-btn" id="filter-available" onclick="setFilter('available')">🟢 In Stock</button>
-          <button class="pill-btn" id="filter-unavailable" onclick="setFilter('unavailable')">🔴 Out of Stock</button>
+        <div class="filter-controls-group">
+          <div class="filter-pills">
+            <button class="pill-btn active" id="filter-all" onclick="setFilter('all')">All Items</button>
+            <button class="pill-btn" id="filter-available" onclick="setFilter('available')">🟢 In Stock</button>
+            <button class="pill-btn" id="filter-unavailable" onclick="setFilter('unavailable')">🔴 Out of Stock</button>
+          </div>
+
+          <button class="btn-add-item" onclick="openAddModal()">
+            <span>➕</span> Add Item
+          </button>
         </div>
       </div>
 
@@ -918,7 +1016,7 @@
     <div id="view-manage" class="tab-view">
       <div style="margin-bottom: 18px;">
         <h2 style="font-size: 1.4rem; font-weight: 800;">Manage Food Menu</h2>
-        <p style="color: var(--gray-600); font-size: 0.88rem;">Add new dishes or update prices and stock availability</p>
+        <p style="color: var(--gray-600); font-size: 0.88rem;">Add new items, update details, or delete items from MySQL database</p>
       </div>
 
       <div class="admin-layout">
@@ -928,12 +1026,12 @@
           <form id="add-food-form" onsubmit="handleCreateFood(event)">
             <div class="form-group">
               <label class="form-label">Food Name *</label>
-              <input type="text" id="food-name-input" class="form-input" placeholder="e.g. Cheese Pizza" required />
+              <input type="text" id="food-name-input" class="form-input" placeholder="e.g. Chicken Shawarma" required />
             </div>
 
             <div class="form-group">
               <label class="form-label">Price (₹) *</label>
-              <input type="number" id="food-price-input" class="form-input" step="1" min="1" placeholder="e.g. 199" required />
+              <input type="number" id="food-price-input" class="form-input" step="1" min="1" placeholder="e.g. 150" required />
             </div>
 
             <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
@@ -960,7 +1058,7 @@
                 <tr>
                   <th>ID</th>
                   <th>Food Name</th>
-                  <th>Price</th>
+                  <th>Price (₹)</th>
                   <th>In Stock</th>
                   <th>Actions</th>
                 </tr>
@@ -974,6 +1072,71 @@
       </div>
     </div>
   </main>
+
+  <!-- Add Item Modal -->
+  <div class="modal-overlay" id="add-item-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>➕ Add New Food Item</h2>
+        <button class="close-btn" onclick="closeAddModal()">✕</button>
+      </div>
+
+      <form id="modal-add-form" onsubmit="handleModalAdd(event)">
+        <div class="form-group">
+          <label class="form-label">Food Name *</label>
+          <input type="text" id="m-add-name" class="form-input" placeholder="e.g. Paneer Butter Masala" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Price (₹) *</label>
+          <input type="number" id="m-add-price" class="form-input" step="1" min="1" placeholder="e.g. 180" required />
+        </div>
+
+        <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="m-add-available" checked style="width: 16px; height: 16px;" />
+          <label for="m-add-available" class="form-label" style="margin: 0; cursor: pointer;">Available in stock</label>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeAddModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Add Item</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Food Modal -->
+  <div class="modal-overlay" id="edit-food-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>✏️ Update Food Item</h2>
+        <button class="close-btn" onclick="closeEditModal()">✕</button>
+      </div>
+
+      <form id="edit-food-form" onsubmit="handleUpdateFood(event)">
+        <input type="hidden" id="edit-food-id" />
+        <div class="form-group">
+          <label class="form-label">Food Name *</label>
+          <input type="text" id="edit-food-name" class="form-input" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Price (₹) *</label>
+          <input type="number" id="edit-food-price" class="form-input" step="1" min="1" required />
+        </div>
+
+        <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="edit-food-available" style="width: 16px; height: 16px;" />
+          <label for="edit-food-available" class="form-label" style="margin: 0; cursor: pointer;">Available in stock</label>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeEditModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Update Item</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- Cart Drawer -->
   <div class="drawer-overlay" id="cart-drawer-overlay" onclick="toggleCartDrawer(false)">
@@ -1085,39 +1248,6 @@
     </div>
   </div>
 
-  <!-- Edit Food Modal -->
-  <div class="modal-overlay" id="edit-food-modal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h2>Edit Food Item</h2>
-        <button class="close-btn" onclick="closeEditModal()">✕</button>
-      </div>
-
-      <form id="edit-food-form" onsubmit="handleUpdateFood(event)">
-        <input type="hidden" id="edit-food-id" />
-        <div class="form-group">
-          <label class="form-label">Food Name *</label>
-          <input type="text" id="edit-food-name" class="form-input" required />
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Price (₹) *</label>
-          <input type="number" id="edit-food-price" class="form-input" step="1" min="1" required />
-        </div>
-
-        <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
-          <input type="checkbox" id="edit-food-available" style="width: 16px; height: 16px;" />
-          <label for="edit-food-available" class="form-label" style="margin: 0; cursor: pointer;">Available in stock</label>
-        </div>
-
-        <div class="modal-actions">
-          <button type="button" class="btn-secondary" onclick="closeEditModal()">Cancel</button>
-          <button type="submit" class="btn-primary">Save Changes</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
   <!-- Toast Container -->
   <div class="toast-container" id="toast-container"></div>
 
@@ -1173,7 +1303,7 @@
       return '🍽️';
     }
 
-    // Tabs
+    // Tabs Navigation
     function switchTab(tab) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
@@ -1229,7 +1359,7 @@
       loadFoods();
     }
 
-    // Render Menu Grid
+    // Render Menu Grid (with Edit and Delete right on cards!)
     function renderFoodGrid() {
       const grid = document.getElementById('food-grid');
 
@@ -1241,9 +1371,14 @@
             <p style="color: var(--gray-600); margin-bottom: 16px; font-size: 0.9rem;">
               The food catalog in your MySQL database is currently empty.
             </p>
-            <button class="btn-primary" onclick="seedSampleMenu()" style="padding: 9px 20px;">
-              ✨ Add Sample Dishes in Rupees (₹)
-            </button>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+              <button class="btn-primary" onclick="openAddModal()" style="padding: 9px 20px;">
+                ➕ Add New Dish
+              </button>
+              <button class="btn-secondary" onclick="seedSampleMenu()" style="padding: 9px 20px;">
+                ✨ Load Default Menu
+              </button>
+            </div>
           </div>
         `;
         return;
@@ -1258,9 +1393,13 @@
           <div class="food-card">
             <div class="card-top">
               <div class="food-emoji">${emoji}</div>
-              <span class="status-badge ${isAvail ? 'in-stock' : 'out-of-stock'}">
-                ${isAvail ? '● In Stock' : '✕ Out of Stock'}
-              </span>
+              <div class="card-actions-top">
+                <span class="status-badge ${isAvail ? 'in-stock' : 'out-of-stock'}">
+                  ${isAvail ? '● In Stock' : '✕ Out'}
+                </span>
+                <button class="icon-action-btn" title="Update Item" onclick="openEditModal(${item.id})">✏️</button>
+                <button class="icon-action-btn delete" title="Delete Item" onclick="deleteFood(${item.id}, '${item.foodName}')">🗑️</button>
+              </div>
             </div>
 
             <div class="food-title">${item.foodName}</div>
@@ -1303,6 +1442,145 @@
         loadFoods();
       } catch (err) {
         showToast('Failed to seed menu: ' + err.message, 'error');
+      }
+    }
+
+    // --- ADD ITEM (Modal + Form) ---
+    function openAddModal() {
+      document.getElementById('modal-add-form').reset();
+      document.getElementById('m-add-available').checked = true;
+      document.getElementById('add-item-modal').classList.add('open');
+    }
+
+    function closeAddModal() {
+      document.getElementById('add-item-modal').classList.remove('open');
+    }
+
+    async function handleModalAdd(event) {
+      event.preventDefault();
+      const name = document.getElementById('m-add-name').value.trim();
+      const price = parseFloat(document.getElementById('m-add-price').value);
+      const isAvailable = document.getElementById('m-add-available').checked;
+
+      try {
+        const res = await fetch('/api/foods', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ foodName: name, price: price, isAvailable: isAvailable })
+        });
+
+        if (!res.ok) throw new Error('Failed to add food item');
+
+        showToast(`"${name}" added successfully!`, 'success');
+        closeAddModal();
+        loadFoods();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    // Add Food from Manage Tab Form
+    async function handleCreateFood(event) {
+      event.preventDefault();
+      const name = document.getElementById('food-name-input').value.trim();
+      const price = parseFloat(document.getElementById('food-price-input').value);
+      const isAvailable = document.getElementById('food-available-input').checked;
+
+      try {
+        const res = await fetch('/api/foods', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ foodName: name, price: price, isAvailable: isAvailable })
+        });
+
+        if (!res.ok) throw new Error('Failed to add food item');
+
+        showToast(`"${name}" added successfully!`, 'success');
+        document.getElementById('add-food-form').reset();
+        document.getElementById('food-available-input').checked = true;
+        loadFoods();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    // --- UPDATE ITEM (Modal + PUT /api/foods/{id}) ---
+    function openEditModal(id) {
+      const food = foods.find(f => f.id === id);
+      if (!food) return;
+
+      document.getElementById('edit-food-id').value = food.id;
+      document.getElementById('edit-food-name').value = food.foodName;
+      document.getElementById('edit-food-price').value = food.price;
+      document.getElementById('edit-food-available').checked = (food.isAvailable === true || food.available === true);
+
+      document.getElementById('edit-food-modal').classList.add('open');
+    }
+
+    function closeEditModal() {
+      document.getElementById('edit-food-modal').classList.remove('open');
+    }
+
+    async function handleUpdateFood(event) {
+      event.preventDefault();
+      const id = document.getElementById('edit-food-id').value;
+      const name = document.getElementById('edit-food-name').value.trim();
+      const price = parseFloat(document.getElementById('edit-food-price').value);
+      const isAvailable = document.getElementById('edit-food-available').checked;
+
+      try {
+        const res = await fetch(`/api/foods/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ foodName: name, price: price, isAvailable: isAvailable })
+        });
+
+        if (!res.ok) throw new Error('Failed to update food item');
+
+        showToast(`"${name}" updated successfully!`, 'success');
+        closeEditModal();
+        loadFoods();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    // Toggle stock (PUT /api/foods/{id})
+    async function toggleAvailability(id, available) {
+      const food = foods.find(f => f.id === id);
+      if (!food) return;
+
+      try {
+        const res = await fetch(`/api/foods/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            foodName: food.foodName,
+            price: food.price,
+            isAvailable: available
+          })
+        });
+
+        if (!res.ok) throw new Error('Failed to update stock');
+        showToast(`Stock updated for ${food.foodName}`, 'info');
+        loadFoods();
+      } catch (err) {
+        showToast(err.message, 'error');
+        loadFoods();
+      }
+    }
+
+    // --- DELETE ITEM (DELETE /api/foods/{id}) ---
+    async function deleteFood(id, name) {
+      if (!confirm(`Are you sure you want to delete "${name}" from the menu?`)) return;
+
+      try {
+        const res = await fetch(`/api/foods/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Failed to delete food');
+        showToast(`"${name}" has been deleted`, 'info');
+        loadFoods();
+      } catch (err) {
+        showToast(err.message, 'error');
       }
     }
 
@@ -1570,7 +1848,7 @@
       `).join('');
     }
 
-    // --- Admin Menu Management (calls existing POST / PUT / DELETE) ---
+    // --- Admin Menu Management Table ---
     function renderAdminTable() {
       const tbody = document.getElementById('admin-table-body');
       if (!tbody) return;
@@ -1599,113 +1877,7 @@
       }).join('');
     }
 
-    // Add Food (POST /api/foods)
-    async function handleCreateFood(event) {
-      event.preventDefault();
-      const name = document.getElementById('food-name-input').value.trim();
-      const price = parseFloat(document.getElementById('food-price-input').value);
-      const isAvailable = document.getElementById('food-available-input').checked;
-
-      try {
-        const res = await fetch('/api/foods', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ foodName: name, price: price, isAvailable: isAvailable })
-        });
-
-        if (!res.ok) throw new Error('Failed to add food item');
-
-        showToast(`"${name}" added successfully!`, 'success');
-        document.getElementById('add-food-form').reset();
-        document.getElementById('food-available-input').checked = true;
-        loadFoods();
-      } catch (err) {
-        showToast(err.message, 'error');
-      }
-    }
-
-    // Toggle stock (PUT /api/foods/{id})
-    async function toggleAvailability(id, available) {
-      const food = foods.find(f => f.id === id);
-      if (!food) return;
-
-      try {
-        const res = await fetch(`/api/foods/${id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            foodName: food.foodName,
-            price: food.price,
-            isAvailable: available
-          })
-        });
-
-        if (!res.ok) throw new Error('Failed to update stock');
-        showToast(`Stock updated for ${food.foodName}`, 'info');
-        loadFoods();
-      } catch (err) {
-        showToast(err.message, 'error');
-        loadFoods();
-      }
-    }
-
-    // Delete Food (DELETE /api/foods/{id})
-    async function deleteFood(id, name) {
-      if (!confirm(`Are you sure you want to delete "${name}"?`)) return;
-
-      try {
-        const res = await fetch(`/api/foods/${id}`, { method: 'DELETE' });
-        if (!res.ok) throw new Error('Failed to delete food');
-        showToast(`"${name}" deleted`, 'info');
-        loadFoods();
-      } catch (err) {
-        showToast(err.message, 'error');
-      }
-    }
-
-    // Edit Modal
-    function openEditModal(id) {
-      const food = foods.find(f => f.id === id);
-      if (!food) return;
-
-      document.getElementById('edit-food-id').value = food.id;
-      document.getElementById('edit-food-name').value = food.foodName;
-      document.getElementById('edit-food-price').value = food.price;
-      document.getElementById('edit-food-available').checked = (food.isAvailable === true || food.available === true);
-
-      document.getElementById('edit-food-modal').classList.add('open');
-    }
-
-    function closeEditModal() {
-      document.getElementById('edit-food-modal').classList.remove('open');
-    }
-
-    // Update Food (PUT /api/foods/{id})
-    async function handleUpdateFood(event) {
-      event.preventDefault();
-      const id = document.getElementById('edit-food-id').value;
-      const name = document.getElementById('edit-food-name').value.trim();
-      const price = parseFloat(document.getElementById('edit-food-price').value);
-      const isAvailable = document.getElementById('edit-food-available').checked;
-
-      try {
-        const res = await fetch(`/api/foods/${id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ foodName: name, price: price, isAvailable: isAvailable })
-        });
-
-        if (!res.ok) throw new Error('Failed to update food item');
-
-        showToast(`"${name}" updated successfully!`, 'success');
-        closeEditModal();
-        loadFoods();
-      } catch (err) {
-        showToast(err.message, 'error');
-      }
-    }
-
-    // Toast
+    // Toast Notifications
     function showToast(message, type = 'info') {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
