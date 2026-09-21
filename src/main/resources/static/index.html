@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Food Ordering System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #f95721;
+      --primary-hover: #e04210;
+      --primary-light: #fff2ed;
+      --secondary: #10b981;
+      --secondary-light: #ecfdf5;
+      --dark: #0f172a;
+      --gray-800: #1e293b;
+      --gray-600: #475569;
+      --gray-400: #94a3b8;
+      --gray-200: #e2e8f0;
+      --gray-100: #f1f5f9;
+      --gray-50: #f8fafc;
+      --white: #ffffff;
+      --danger: #ef4444;
+      --danger-light: #fef2f2;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.08);
+      --radius: 14px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f8fafc;
+      color: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navigation Bar */
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .nav-container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--dark);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .brand-icon {
+      background: linear-gradient(135deg, #f95721, #ff7a45);
+      color: white;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      font-size: 1.25rem;
+      box-shadow: 0 4px 10px rgba(249, 87, 33, 0.3);
+    }
+
+    .brand span span {
+      color: var(--primary);
+    }
+
+    .nav-tabs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gray-100);
+      padding: 4px;
+      border-radius: 10px;
+    }
+
+    .tab-btn {
+      padding: 8px 16px;
+      border: none;
+      background: transparent;
+      color: var(--gray-600);
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--dark);
+    }
+
+    .tab-btn.active {
+      background: var(--white);
+      color: var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .cart-btn {
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(249, 87, 33, 0.25);
+      transition: transform 0.15s ease, background 0.2s;
+    }
+
+    .cart-btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .cart-count {
+      background: var(--white);
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px 20px;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* Hero Banner */
+    .hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      border-radius: var(--radius);
+      padding: 32px;
+      color: var(--white);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-text h1 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .hero-text p {
+      color: var(--gray-400);
+      font-size: 0.95rem;
+    }
+
+    .hero-badge {
+      background: rgba(249, 87, 33, 0.2);
+      border: 1px solid rgba(249, 87, 33, 0.4);
+      color: #ff8a65;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    /* Filters Bar */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      min-width: 260px;
+      max-width: 380px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 14px 10px 38px;
+      border-radius: 999px;
+      border: 1px solid var(--gray-200);
+      background: var(--white);
+      font-size: 0.92rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(249, 87, 33, 0.15);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      font-size: 0.95rem;
+      pointer-events: none;
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 8px;
+    }
+
+    .pill-btn {
+      border: 1px solid var(--gray-200);
+      background: var(--white);
+      color: var(--gray-600);
+      padding: 7px 15px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .pill-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .pill-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: var(--white);
+    }
+
+    /* Food Grid */
+    .food-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .food-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-200);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+    }
+
+    .food-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .food-emoji {
+      font-size: 2.5rem;
+      width: 58px;
+      height: 58px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .status-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .status-badge.in-stock {
+      background: var(--secondary-light);
+      color: var(--secondary);
+    }
+
+    .status-badge.out-of-stock {
+      background: var(--danger-light);
+      color: var(--danger);
+    }
+
+    .food-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .food-id {
+      font-size: 0.78rem;
+      color: var(--gray-400);
+      margin-bottom: 12px;
+    }
+
+    .card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid var(--gray-100);
+    }
+
+    .food-price {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .add-btn {
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      padding: 7px 15px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .add-btn:hover:not(:disabled) {
+      background: var(--primary-hover);
+    }
+
+    .add-btn:disabled {
+      background: var(--gray-200);
+      color: var(--gray-400);
+      cursor: not-allowed;
+    }
+
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      background: var(--primary-light);
+      border-radius: 999px;
+      padding: 2px;
+      gap: 6px;
+    }
+
+    .qty-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: none;
+      background: var(--white);
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .qty-btn:hover {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .qty-val {
+      font-weight: 700;
+      font-size: 0.88rem;
+      min-width: 16px;
+      text-align: center;
+      color: var(--dark);
+    }
+
+    /* Cart Drawer */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(3px);
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s ease;
+    }
+
+    .drawer-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 420px;
+      height: 100vh;
+      background: var(--white);
+      z-index: 101;
+      display: flex;
+      flex-direction: column;
+      box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+      transform: translateX(100%);
+      transition: transform 0.25s ease;
+    }
+
+    .drawer-overlay.open .cart-drawer {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .drawer-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .close-btn {
+      background: var(--gray-100);
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close-btn:hover {
+      background: var(--gray-200);
+    }
+
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .cart-item-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 2px;
+    }
+
+    .cart-item-sub {
+      font-size: 0.82rem;
+      color: var(--gray-400);
+    }
+
+    .cart-item-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .cart-item-total {
+      font-weight: 800;
+      color: var(--primary);
+      font-size: 0.95rem;
+    }
+
+    .drawer-footer {
+      border-top: 1px solid var(--gray-200);
+      padding: 18px 20px;
+      background: var(--gray-50);
+    }
+
+    .bill-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      margin-bottom: 6px;
+    }
+
+    .bill-row.total {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--gray-200);
+    }
+
+    .checkout-btn {
+      width: 100%;
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      padding: 13px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-top: 14px;
+      transition: background 0.2s;
+    }
+
+    .checkout-btn:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      padding: 24px;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .modal-header h2 {
+      font-size: 1.25rem;
+      font-weight: 800;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.83rem;
+      font-weight: 700;
+      color: var(--gray-800);
+      margin-bottom: 5px;
+    }
+
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--primary);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn-secondary {
+      flex: 1;
+      padding: 11px;
+      background: var(--gray-100);
+      color: var(--gray-800);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      flex: 2;
+      padding: 11px;
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Views */
+    .tab-view {
+      display: none;
+    }
+
+    .tab-view.active {
+      display: block;
+    }
+
+    /* Orders View */
+    .order-item-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .order-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .order-id-badge {
+      font-weight: 800;
+      font-size: 1.05rem;
+    }
+
+    .order-summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+      font-size: 0.88rem;
+    }
+
+    .order-summary-table th {
+      text-align: left;
+      padding: 6px 8px;
+      background: var(--gray-50);
+      color: var(--gray-600);
+    }
+
+    .order-summary-table td {
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    /* Admin View */
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 840px) {
+      .admin-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .admin-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-200);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .admin-card h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .admin-table th {
+      text-align: left;
+      padding: 10px 12px;
+      background: var(--gray-50);
+      color: var(--gray-600);
+      font-weight: 700;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .admin-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--gray-100);
+      vertical-align: middle;
+    }
+
+    .action-btn {
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--gray-200);
+      background: var(--white);
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .action-btn.danger:hover {
+      background: var(--danger-light);
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    /* Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 300;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: var(--dark);
+      color: var(--white);
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      font-weight: 600;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.2s ease;
+      pointer-events: auto;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast.success { border-left: 4px solid var(--secondary); }
+    .toast.error { border-left: 4px solid var(--danger); }
+    .toast.info { border-left: 4px solid var(--primary); }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 18px;
+      font-size: 0.82rem;
+      color: var(--gray-400);
+      border-top: 1px solid var(--gray-200);
+      background: var(--white);
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <div class="brand" onclick="switchTab('menu')">
+        <div class="brand-icon">🍕</div>
+        <span>Food<span>Ordering</span></span>
+      </div>
+
+      <div class="nav-tabs">
+        <button class="tab-btn active" id="btn-tab-menu" onclick="switchTab('menu')">
+          <span>🍽️</span> Menu
+        </button>
+        <button class="tab-btn" id="btn-tab-orders" onclick="switchTab('orders')">
+          <span>📋</span> Orders (<span id="orders-badge">0</span>)
+        </button>
+        <button class="tab-btn" id="btn-tab-manage" onclick="switchTab('manage')">
+          <span>⚙️</span> Manage Menu
+        </button>
+      </div>
+
+      <button class="cart-btn" onclick="toggleCartDrawer(true)">
+        <span>🛒 Cart</span>
+        <span class="cart-count" id="cart-count">0</span>
+        <span id="cart-nav-total" style="font-size: 0.85rem;">₹0.00</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- MENU VIEW -->
+    <div id="view-menu" class="tab-view active">
+      <div class="hero">
+        <div class="hero-text">
+          <div class="hero-badge">🚀 Instant Ordering</div>
+          <h1>Delicious Food Delivered Fast</h1>
+          <p>Order freshly prepared food with our quick and simple ordering system.</p>
+        </div>
+        <div style="font-size: 4.5rem;">🍔</div>
+      </div>
+
+      <div class="filter-bar">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" class="search-input" placeholder="Search food by name..." oninput="handleSearch()" />
+        </div>
+
+        <div class="filter-pills">
+          <button class="pill-btn active" id="filter-all" onclick="setFilter('all')">All Items</button>
+          <button class="pill-btn" id="filter-available" onclick="setFilter('available')">🟢 In Stock</button>
+          <button class="pill-btn" id="filter-unavailable" onclick="setFilter('unavailable')">🔴 Out of Stock</button>
+        </div>
+      </div>
+
+      <div class="food-grid" id="food-grid">
+        <!-- Loaded via JavaScript -->
+      </div>
+    </div>
+
+    <!-- ORDERS VIEW -->
+    <div id="view-orders" class="tab-view">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+        <div>
+          <h2 style="font-size: 1.4rem; font-weight: 800;">Your Placed Orders</h2>
+          <p style="color: var(--gray-600); font-size: 0.88rem;">Track your recent order receipts and delivery updates</p>
+        </div>
+        <button class="pill-btn" onclick="clearOrdersHistory()" style="color: var(--danger); border-color: var(--danger);">
+          🗑️ Clear History
+        </button>
+      </div>
+
+      <div id="orders-list">
+        <!-- Loaded via JavaScript -->
+      </div>
+    </div>
+
+    <!-- MANAGE MENU VIEW -->
+    <div id="view-manage" class="tab-view">
+      <div style="margin-bottom: 18px;">
+        <h2 style="font-size: 1.4rem; font-weight: 800;">Manage Food Menu</h2>
+        <p style="color: var(--gray-600); font-size: 0.88rem;">Add new dishes or update prices and stock availability</p>
+      </div>
+
+      <div class="admin-layout">
+        <!-- Add Food Form -->
+        <div class="admin-card">
+          <h3>➕ Add New Food Item</h3>
+          <form id="add-food-form" onsubmit="handleCreateFood(event)">
+            <div class="form-group">
+              <label class="form-label">Food Name *</label>
+              <input type="text" id="food-name-input" class="form-input" placeholder="e.g. Cheese Pizza" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Price (₹) *</label>
+              <input type="number" id="food-price-input" class="form-input" step="1" min="1" placeholder="e.g. 199" required />
+            </div>
+
+            <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+              <input type="checkbox" id="food-available-input" checked style="width: 16px; height: 16px;" />
+              <label for="food-available-input" class="form-label" style="margin: 0; cursor: pointer;">Available in stock</label>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width: 100%; margin-top: 6px;">
+              Add to Menu
+            </button>
+          </form>
+        </div>
+
+        <!-- Food List Table -->
+        <div class="admin-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h3>📋 Existing Food Items</h3>
+            <button class="action-btn" onclick="loadFoods()">🔄 Refresh</button>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Food Name</th>
+                  <th>Price</th>
+                  <th>In Stock</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-table-body">
+                <!-- Loaded via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Cart Drawer -->
+  <div class="drawer-overlay" id="cart-drawer-overlay" onclick="toggleCartDrawer(false)">
+    <div class="cart-drawer" onclick="event.stopPropagation()">
+      <div class="drawer-header">
+        <div class="drawer-title">
+          <span>🛒</span> Your Cart
+        </div>
+        <button class="close-btn" onclick="toggleCartDrawer(false)">✕</button>
+      </div>
+
+      <div class="drawer-body" id="cart-items-container">
+        <!-- Loaded via JavaScript -->
+      </div>
+
+      <div class="drawer-footer" id="cart-footer" style="display: none;">
+        <div class="bill-row">
+          <span>Subtotal</span>
+          <span id="bill-subtotal">₹0.00</span>
+        </div>
+        <div class="bill-row">
+          <span>Delivery Fee</span>
+          <span id="bill-delivery">FREE</span>
+        </div>
+        <div class="bill-row total">
+          <span>Total Amount</span>
+          <span id="bill-total">₹0.00</span>
+        </div>
+
+        <button class="checkout-btn" onclick="openCheckoutModal()">
+          Proceed to Order ➔
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div class="modal-overlay" id="checkout-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Place Your Order</h2>
+        <button class="close-btn" onclick="closeCheckoutModal()">✕</button>
+      </div>
+
+      <form id="order-form" onsubmit="handlePlaceOrder(event)">
+        <div class="form-group">
+          <label class="form-label">Your Name *</label>
+          <input type="text" id="cust-name" class="form-input" placeholder="e.g. Parthiv Sriram" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Phone Number *</label>
+          <input type="tel" id="cust-phone" class="form-input" placeholder="e.g. 9876543210" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Delivery Address / Table No. *</label>
+          <textarea id="cust-address" class="form-textarea" placeholder="e.g. Table 4 or Flat 102, Green Valley Apartments" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Payment Mode</label>
+          <select id="cust-payment" class="form-select">
+            <option value="Cash on Delivery">💵 Cash on Delivery / Counter</option>
+            <option value="UPI / QR Code">📱 UPI / QR Code (GPay, PhonePe, Paytm)</option>
+            <option value="Card Payment">💳 Credit / Debit Card</option>
+          </select>
+        </div>
+
+        <div style="background: var(--gray-50); padding: 12px; border-radius: var(--radius-sm); margin: 14px 0;">
+          <div style="display: flex; justify-content: space-between; font-weight: 700;">
+            <span>Total Payable:</span>
+            <span id="modal-pay-amount" style="color: var(--primary); font-size: 1.1rem;">₹0.00</span>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeCheckoutModal()">Back</button>
+          <button type="submit" class="btn-primary">Confirm Order</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Order Receipt Modal -->
+  <div class="modal-overlay" id="receipt-modal">
+    <div class="modal-card" style="text-align: center;">
+      <div style="font-size: 3.5rem; margin-bottom: 8px;">🎉</div>
+      <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 4px;">Order Placed Successfully!</h2>
+      <p style="color: var(--gray-600); font-size: 0.9rem; margin-bottom: 16px;">
+        Order <strong id="receipt-order-id" style="color: var(--primary);">#ORD-101</strong> has been sent to the kitchen!
+      </p>
+
+      <div style="background: var(--gray-50); border-radius: var(--radius-sm); padding: 14px; text-align: left; margin-bottom: 18px; font-size: 0.88rem;">
+        <div style="margin-bottom: 4px;"><strong>Customer:</strong> <span id="receipt-name"></span></div>
+        <div style="margin-bottom: 4px;"><strong>Phone:</strong> <span id="receipt-phone"></span></div>
+        <div style="margin-bottom: 4px;"><strong>Address:</strong> <span id="receipt-address"></span></div>
+        <div style="margin-bottom: 8px;"><strong>Payment:</strong> <span id="receipt-payment"></span></div>
+        <div style="border-top: 1px dashed var(--gray-200); padding-top: 8px; margin-top: 8px; font-weight: 700; color: var(--primary); font-size: 1rem; display: flex; justify-content: space-between;">
+          <span>Total Paid:</span>
+          <span id="receipt-total"></span>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" onclick="closeReceiptModal(false)">Order More</button>
+        <button type="button" class="btn-primary" onclick="closeReceiptModal(true)">View Orders</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Food Modal -->
+  <div class="modal-overlay" id="edit-food-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Edit Food Item</h2>
+        <button class="close-btn" onclick="closeEditModal()">✕</button>
+      </div>
+
+      <form id="edit-food-form" onsubmit="handleUpdateFood(event)">
+        <input type="hidden" id="edit-food-id" />
+        <div class="form-group">
+          <label class="form-label">Food Name *</label>
+          <input type="text" id="edit-food-name" class="form-input" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Price (₹) *</label>
+          <input type="number" id="edit-food-price" class="form-input" step="1" min="1" required />
+        </div>
+
+        <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="edit-food-available" style="width: 16px; height: 16px;" />
+          <label for="edit-food-available" class="form-label" style="margin: 0; cursor: pointer;">Available in stock</label>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeEditModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <footer>
+    <p>Food Ordering System &bull; Built with Spring Boot REST API &bull; MySQL Database</p>
+  </footer>
+
+  <script>
+    // State
+    let foods = [];
+    let cart = {}; // { id: { food, quantity } }
+    let currentFilter = 'all'; // 'all', 'available', 'unavailable'
+    let searchQuery = '';
+
+    // Sample dishes with realistic Rupee prices (₹)
+    const sampleDishes = [
+      { foodName: "Chicken Shawarma", price: 120.00, isAvailable: true },
+      { foodName: "Pepper Grill Chicken", price: 240.00, isAvailable: true },
+      { foodName: "Kerala Parotta", price: 30.00, isAvailable: true },
+      { foodName: "Margherita Pizza", price: 249.00, isAvailable: true },
+      { foodName: "Cheeseburger Deluxe", price: 149.00, isAvailable: true },
+      { foodName: "Chicken Biryani", price: 220.00, isAvailable: true },
+      { foodName: "Creamy Alfredo Pasta", price: 180.00, isAvailable: true },
+      { foodName: "Crispy French Fries", price: 90.00, isAvailable: true },
+      { foodName: "Fresh Mint Lemonade", price: 60.00, isAvailable: true },
+      { foodName: "Warm Chocolate Brownie", price: 110.00, isAvailable: true }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadFoods();
+      loadCart();
+      updateCartUI();
+      updateOrdersCount();
+    });
+
+    // Smart Emoji Picker
+    function getFoodEmoji(name) {
+      const n = (name || '').toLowerCase();
+      if (n.includes('shawarma')) return '🌯';
+      if (n.includes('grill')) return '🍗';
+      if (n.includes('parota') || n.includes('parotta')) return '🫓';
+      if (n.includes('pizza')) return '🍕';
+      if (n.includes('burger')) return '🍔';
+      if (n.includes('biryani') || n.includes('rice')) return '🍛';
+      if (n.includes('pasta') || n.includes('noodle')) return '🍝';
+      if (n.includes('fries') || n.includes('potato')) return '🍟';
+      if (n.includes('sandwich')) return '🥪';
+      if (n.includes('taco') || n.includes('wrap')) return '🌮';
+      if (n.includes('coffee') || n.includes('tea')) return '☕';
+      if (n.includes('juice') || n.includes('lemonade') || n.includes('drink') || n.includes('water')) return '🥤';
+      if (n.includes('cake') || n.includes('brownie') || n.includes('dessert') || n.includes('ice cream')) return '🍰';
+      if (n.includes('chicken') || n.includes('meat') || n.includes('steak')) return '🍗';
+      return '🍽️';
+    }
+
+    // Tabs
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
+
+      if (tab === 'menu') {
+        document.getElementById('btn-tab-menu').classList.add('active');
+        document.getElementById('view-menu').classList.add('active');
+      } else if (tab === 'orders') {
+        document.getElementById('btn-tab-orders').classList.add('active');
+        document.getElementById('view-orders').classList.add('active');
+        renderOrdersList();
+      } else if (tab === 'manage') {
+        document.getElementById('btn-tab-manage').classList.add('active');
+        document.getElementById('view-manage').classList.add('active');
+        renderAdminTable();
+      }
+    }
+
+    // --- API Calls using existing /api/foods ---
+    async function loadFoods() {
+      try {
+        let url = '/api/foods';
+        const params = new URLSearchParams();
+
+        if (searchQuery) params.append('name', searchQuery);
+        if (currentFilter === 'available') params.append('available', 'true');
+        if (currentFilter === 'unavailable') params.append('available', 'false');
+
+        const queryString = params.toString();
+        if (queryString) {
+          url += '?' + queryString;
+        }
+
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Could not fetch foods');
+        foods = await res.json();
+        renderFoodGrid();
+        renderAdminTable();
+      } catch (err) {
+        showToast('Error loading food items: ' + err.message, 'error');
+      }
+    }
+
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-pills .pill-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('filter-' + filter).classList.add('active');
+      loadFoods();
+    }
+
+    function handleSearch() {
+      searchQuery = document.getElementById('search-input').value.trim();
+      loadFoods();
+    }
+
+    // Render Menu Grid
+    function renderFoodGrid() {
+      const grid = document.getElementById('food-grid');
+
+      if (!foods || foods.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 50px 20px; background: var(--white); border-radius: var(--radius); border: 1px dashed var(--gray-200);">
+            <div style="font-size: 3rem; margin-bottom: 10px;">🍲</div>
+            <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 6px;">No food items found</h3>
+            <p style="color: var(--gray-600); margin-bottom: 16px; font-size: 0.9rem;">
+              The food catalog in your MySQL database is currently empty.
+            </p>
+            <button class="btn-primary" onclick="seedSampleMenu()" style="padding: 9px 20px;">
+              ✨ Add Sample Dishes in Rupees (₹)
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = foods.map(item => {
+        const inCartQty = cart[item.id] ? cart[item.id].quantity : 0;
+        const isAvail = item.isAvailable === true || item.available === true;
+        const emoji = getFoodEmoji(item.foodName);
+
+        return `
+          <div class="food-card">
+            <div class="card-top">
+              <div class="food-emoji">${emoji}</div>
+              <span class="status-badge ${isAvail ? 'in-stock' : 'out-of-stock'}">
+                ${isAvail ? '● In Stock' : '✕ Out of Stock'}
+              </span>
+            </div>
+
+            <div class="food-title">${item.foodName}</div>
+            <div class="food-id">Item #${item.id}</div>
+
+            <div class="card-bottom">
+              <div class="food-price">₹${Number(item.price).toFixed(2)}</div>
+
+              ${!isAvail ? `
+                <button class="add-btn" disabled>Unavailable</button>
+              ` : inCartQty > 0 ? `
+                <div class="qty-controls">
+                  <button class="qty-btn" onclick="updateQty(${item.id}, -1)">−</button>
+                  <span class="qty-val">${inCartQty}</span>
+                  <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
+                </div>
+              ` : `
+                <button class="add-btn" onclick="addToCart(${item.id})">
+                  + Add
+                </button>
+              `}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 1-Click Sample Menu Seeder in Rupees
+    async function seedSampleMenu() {
+      showToast('Adding sample menu dishes to MySQL...', 'info');
+      try {
+        for (const item of sampleDishes) {
+          await fetch('/api/foods', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(item)
+          });
+        }
+        showToast('Sample menu loaded successfully in Rupees (₹)!', 'success');
+        loadFoods();
+      } catch (err) {
+        showToast('Failed to seed menu: ' + err.message, 'error');
+      }
+    }
+
+    // --- Cart Management ---
+    function addToCart(id) {
+      const food = foods.find(f => f.id === id);
+      if (!food || (!food.isAvailable && !food.available)) {
+        showToast('Item is out of stock', 'error');
+        return;
+      }
+
+      if (!cart[id]) {
+        cart[id] = { food, quantity: 1 };
+      } else {
+        cart[id].quantity += 1;
+      }
+
+      saveCart();
+      updateCartUI();
+      renderFoodGrid();
+      showToast(`Added ${food.foodName} to cart!`, 'success');
+    }
+
+    function updateQty(id, change) {
+      if (!cart[id]) return;
+
+      cart[id].quantity += change;
+      if (cart[id].quantity <= 0) {
+        delete cart[id];
+        showToast('Item removed from cart', 'info');
+      }
+
+      saveCart();
+      updateCartUI();
+      renderFoodGrid();
+    }
+
+    function saveCart() {
+      localStorage.setItem('food_order_cart', JSON.stringify(cart));
+    }
+
+    function loadCart() {
+      const saved = localStorage.getItem('food_order_cart');
+      if (saved) {
+        try {
+          cart = JSON.parse(saved);
+        } catch (e) {
+          cart = {};
+        }
+      }
+    }
+
+    function updateCartUI() {
+      const items = Object.values(cart);
+      const totalCount = items.reduce((sum, i) => sum + i.quantity, 0);
+      const subtotal = items.reduce((sum, i) => sum + (i.food.price * i.quantity), 0);
+
+      document.getElementById('cart-count').textContent = totalCount;
+      document.getElementById('cart-nav-total').textContent = `₹${subtotal.toFixed(2)}`;
+
+      const container = document.getElementById('cart-items-container');
+      const footer = document.getElementById('cart-footer');
+
+      if (items.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 40px 10px; color: var(--gray-400); margin: auto 0;">
+            <div style="font-size: 3rem; margin-bottom: 8px;">🛒</div>
+            <h4 style="color: var(--dark); font-weight: 700; margin-bottom: 4px;">Your cart is empty</h4>
+            <p style="font-size: 0.85rem;">Add some tasty dishes from the menu!</p>
+          </div>
+        `;
+        footer.style.display = 'none';
+        return;
+      }
+
+      footer.style.display = 'block';
+      document.getElementById('bill-subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+      document.getElementById('bill-total').textContent = `₹${subtotal.toFixed(2)}`;
+      document.getElementById('modal-pay-amount').textContent = `₹${subtotal.toFixed(2)}`;
+
+      container.innerHTML = items.map(i => {
+        const itemTotal = i.food.price * i.quantity;
+        return `
+          <div class="cart-item">
+            <div>
+              <div class="cart-item-title">${i.food.foodName}</div>
+              <div class="cart-item-sub">₹${Number(i.food.price).toFixed(2)} each</div>
+            </div>
+            <div class="cart-item-right">
+              <div class="cart-item-total">₹${itemTotal.toFixed(2)}</div>
+              <div class="qty-controls">
+                <button class="qty-btn" onclick="updateQty(${i.food.id}, -1)">−</button>
+                <span class="qty-val">${i.quantity}</span>
+                <button class="qty-btn" onclick="updateQty(${i.food.id}, 1)">+</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleCartDrawer(open) {
+      const drawer = document.getElementById('cart-drawer-overlay');
+      if (open) {
+        drawer.classList.add('open');
+      } else {
+        drawer.classList.remove('open');
+      }
+    }
+
+    // --- Order Checkout ---
+    function openCheckoutModal() {
+      if (Object.keys(cart).length === 0) {
+        showToast('Your cart is empty!', 'error');
+        return;
+      }
+      toggleCartDrawer(false);
+      document.getElementById('checkout-modal').classList.add('open');
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById('checkout-modal').classList.remove('open');
+    }
+
+    function handlePlaceOrder(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('cust-name').value.trim();
+      const phone = document.getElementById('cust-phone').value.trim();
+      const address = document.getElementById('cust-address').value.trim();
+      const payment = document.getElementById('cust-payment').value;
+
+      const items = Object.values(cart).map(i => ({
+        id: i.food.id,
+        foodName: i.food.foodName,
+        price: i.food.price,
+        quantity: i.quantity,
+        subtotal: i.food.price * i.quantity
+      }));
+
+      const subtotal = items.reduce((sum, i) => sum + i.subtotal, 0);
+      const orderId = 'ORD-' + Math.floor(1000 + Math.random() * 9000);
+
+      const orderData = {
+        orderId: orderId,
+        customerName: name,
+        phone: phone,
+        address: address,
+        paymentMethod: payment,
+        items: items,
+        totalAmount: subtotal,
+        orderTime: new Date().toLocaleString(),
+        status: 'Preparing'
+      };
+
+      // Save to Order History
+      const existingOrders = getSavedOrders();
+      existingOrders.unshift(orderData);
+      localStorage.setItem('food_placed_orders', JSON.stringify(existingOrders));
+
+      // Show Receipt
+      closeCheckoutModal();
+      document.getElementById('receipt-order-id').textContent = '#' + orderId;
+      document.getElementById('receipt-name').textContent = name;
+      document.getElementById('receipt-phone').textContent = phone;
+      document.getElementById('receipt-address').textContent = address;
+      document.getElementById('receipt-payment').textContent = payment;
+      document.getElementById('receipt-total').textContent = `₹${subtotal.toFixed(2)}`;
+      document.getElementById('receipt-modal').classList.add('open');
+
+      // Clear Cart
+      cart = {};
+      saveCart();
+      updateCartUI();
+      renderFoodGrid();
+      updateOrdersCount();
+    }
+
+    function closeReceiptModal(goToOrders = false) {
+      document.getElementById('receipt-modal').classList.remove('open');
+      if (goToOrders) {
+        switchTab('orders');
+      }
+    }
+
+    // --- Orders History ---
+    function getSavedOrders() {
+      const saved = localStorage.getItem('food_placed_orders');
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {
+          return [];
+        }
+      }
+      return [];
+    }
+
+    function updateOrdersCount() {
+      const orders = getSavedOrders();
+      document.getElementById('orders-badge').textContent = orders.length;
+    }
+
+    function clearOrdersHistory() {
+      if (confirm('Clear your order history?')) {
+        localStorage.removeItem('food_placed_orders');
+        updateOrdersCount();
+        renderOrdersList();
+        showToast('Order history cleared', 'info');
+      }
+    }
+
+    function renderOrdersList() {
+      const container = document.getElementById('orders-list');
+      const orders = getSavedOrders();
+
+      if (orders.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 48px 20px; background: var(--white); border-radius: var(--radius); border: 1px solid var(--gray-200);">
+            <div style="font-size: 3rem; margin-bottom: 8px;">📦</div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">No orders yet</h3>
+            <p style="color: var(--gray-600); font-size: 0.88rem; margin-bottom: 14px;">Select dishes from the menu to place your first order!</p>
+            <button class="btn-primary" onclick="switchTab('menu')" style="padding: 8px 18px;">Go to Menu</button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = orders.map(order => `
+        <div class="order-item-card">
+          <div class="order-top">
+            <div>
+              <span class="order-id-badge">${order.orderId}</span>
+              <span style="font-size: 0.8rem; color: var(--gray-400); margin-left: 8px;">${order.orderTime}</span>
+            </div>
+            <span class="status-badge in-stock">● ${order.status || 'Received'}</span>
+          </div>
+
+          <table class="order-summary-table">
+            <thead>
+              <tr>
+                <th>Dish</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th style="text-align: right;">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${order.items.map(i => `
+                <tr>
+                  <td>${i.foodName}</td>
+                  <td>${i.quantity}</td>
+                  <td>₹${Number(i.price).toFixed(2)}</td>
+                  <td style="text-align: right;">₹${Number(i.subtotal).toFixed(2)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 0.85rem; color: var(--gray-600);">
+            <div><strong>Deliver to:</strong> ${order.customerName} &bull; ${order.address} (${order.paymentMethod})</div>
+            <div style="font-size: 1.1rem; font-weight: 800; color: var(--primary);">₹${Number(order.totalAmount).toFixed(2)}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- Admin Menu Management (calls existing POST / PUT / DELETE) ---
+    function renderAdminTable() {
+      const tbody = document.getElementById('admin-table-body');
+      if (!tbody) return;
+
+      if (foods.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--gray-400);">No food items found</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = foods.map(food => {
+        const isAvail = food.isAvailable === true || food.available === true;
+        return `
+          <tr>
+            <td><strong>#${food.id}</strong></td>
+            <td><strong>${food.foodName}</strong></td>
+            <td>₹${Number(food.price).toFixed(2)}</td>
+            <td>
+              <input type="checkbox" ${isAvail ? 'checked' : ''} onchange="toggleAvailability(${food.id}, this.checked)" style="width: 16px; height: 16px; cursor: pointer;" />
+            </td>
+            <td>
+              <button class="action-btn" onclick="openEditModal(${food.id})">✏️ Edit</button>
+              <button class="action-btn danger" onclick="deleteFood(${food.id}, '${food.foodName}')">🗑️ Delete</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Add Food (POST /api/foods)
+    async function handleCreateFood(event) {
+      event.preventDefault();
+      const name = document.getElementById('food-name-input').value.trim();
+      const price = parseFloat(document.getElementById('food-price-input').value);
+      const isAvailable = document.getElementById('food-available-input').checked;
+
+      try {
+        const res = await fetch('/api/foods', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ foodName: name, price: price, isAvailable: isAvailable })
+        });
+
+        if (!res.ok) throw new Error('Failed to add food item');
+
+        showToast(`"${name}" added successfully!`, 'success');
+        document.getElementById('add-food-form').reset();
+        document.getElementById('food-available-input').checked = true;
+        loadFoods();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    // Toggle stock (PUT /api/foods/{id})
+    async function toggleAvailability(id, available) {
+      const food = foods.find(f => f.id === id);
+      if (!food) return;
+
+      try {
+        const res = await fetch(`/api/foods/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            foodName: food.foodName,
+            price: food.price,
+            isAvailable: available
+          })
+        });
+
+        if (!res.ok) throw new Error('Failed to update stock');
+        showToast(`Stock updated for ${food.foodName}`, 'info');
+        loadFoods();
+      } catch (err) {
+        showToast(err.message, 'error');
+        loadFoods();
+      }
+    }
+
+    // Delete Food (DELETE /api/foods/{id})
+    async function deleteFood(id, name) {
+      if (!confirm(`Are you sure you want to delete "${name}"?`)) return;
+
+      try {
+        const res = await fetch(`/api/foods/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Failed to delete food');
+        showToast(`"${name}" deleted`, 'info');
+        loadFoods();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    // Edit Modal
+    function openEditModal(id) {
+      const food = foods.find(f => f.id === id);
+      if (!food) return;
+
+      document.getElementById('edit-food-id').value = food.id;
+      document.getElementById('edit-food-name').value = food.foodName;
+      document.getElementById('edit-food-price').value = food.price;
+      document.getElementById('edit-food-available').checked = (food.isAvailable === true || food.available === true);
+
+      document.getElementById('edit-food-modal').classList.add('open');
+    }
+
+    function closeEditModal() {
+      document.getElementById('edit-food-modal').classList.remove('open');
+    }
+
+    // Update Food (PUT /api/foods/{id})
+    async function handleUpdateFood(event) {
+      event.preventDefault();
+      const id = document.getElementById('edit-food-id').value;
+      const name = document.getElementById('edit-food-name').value.trim();
+      const price = parseFloat(document.getElementById('edit-food-price').value);
+      const isAvailable = document.getElementById('edit-food-available').checked;
+
+      try {
+        const res = await fetch(`/api/foods/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ foodName: name, price: price, isAvailable: isAvailable })
+        });
+
+        if (!res.ok) throw new Error('Failed to update food item');
+
+        showToast(`"${name}" updated successfully!`, 'success');
+        closeEditModal();
+        loadFoods();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    // Toast
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+
+      let icon = 'ℹ️';
+      if (type === 'success') icon = '✅';
+      if (type === 'error') icon = '❌';
+
+      toast.innerHTML = `<span>${icon} ${message}</span>`;
+      container.appendChild(toast);
+
+      setTimeout(() => toast.classList.add('show'), 10);
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
